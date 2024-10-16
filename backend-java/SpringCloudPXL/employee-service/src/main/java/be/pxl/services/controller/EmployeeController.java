@@ -1,9 +1,11 @@
 package be.pxl.services.controller;
 
+import be.pxl.services.client.NotificationClient;
 import be.pxl.services.domain.Employee;
 import be.pxl.services.domain.dto.*;
 import be.pxl.services.services.IEmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,25 +36,17 @@ public class EmployeeController {
 
     @GetMapping("/department/{departmentId}")
     public ResponseEntity<List<EmployeeResponse>> findByDepartment(@PathVariable Long departmentId) {
-        List<EmployeeResponse> departments = employeeService.findByDepartment(departmentId);
-        if (departments.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(departments);
+        return new ResponseEntity(employeeService.findByDepartment(departmentId), HttpStatus.OK);
     }
 
     @GetMapping("/organization/{organizationId}")
     public ResponseEntity<List<EmployeeResponse>> findByOrganization(@PathVariable Long organizationId) {
-        List<EmployeeResponse> organizations = employeeService.findByOrganization(organizationId);
-        if (organizations.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(organizations);
+        return new ResponseEntity(employeeService.findByOrganization(organizationId), HttpStatus.OK);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addEmployee(@RequestBody EmployeeRequest employeeRequest) {
+    public void createEmployee(@RequestBody EmployeeRequest employeeRequest) {
         employeeService.addEmployee(employeeRequest);
     }
 }
