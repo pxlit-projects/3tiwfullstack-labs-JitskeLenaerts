@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IEmployeeService {
-    Optional<Employee> findById(long employeeId);
-
     List<EmployeeResponse> getAllEmployees();
-    List<EmployeeResponse> findByDepartment(Long departmentId);
-    List<EmployeeResponse> findByOrganization(Long organizationId);
 
     void addEmployee(EmployeeRequest employeeRequest);
+
+    EmployeeResponse getEmployee(Long id);
+
+    List<EmployeeResponse> getEmployeesByDepartmentId(Long departmentId);
+
+    List<EmployeeResponse> getEmployeesByOrganizationId(Long organizationId);
 }

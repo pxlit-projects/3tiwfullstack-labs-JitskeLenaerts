@@ -17,36 +17,35 @@ import java.util.Optional;
 @RequestMapping("/api/employee")
 @RequiredArgsConstructor
 public class EmployeeController {
+
     private final IEmployeeService employeeService;
 
     @GetMapping
-    public ResponseEntity getEmployees() {
+    public ResponseEntity findAll() {
         return new ResponseEntity(employeeService.getAllEmployees(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> findById(@PathVariable Long id) {
-        Optional<Employee> employee = employeeService.findById(id);
-        if (employee.isPresent()) {
-            return ResponseEntity.ok(employee.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @ResponseStatus(HttpStatus.OK)
+    public EmployeeResponse findById(@PathVariable Long id) {
+        return employeeService.getEmployee(id);
     }
 
     @GetMapping("/department/{departmentId}")
-    public ResponseEntity<List<EmployeeResponse>> findByDepartment(@PathVariable Long departmentId) {
-        return new ResponseEntity(employeeService.findByDepartment(departmentId), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public List<EmployeeResponse> findByDepartment(@PathVariable Long departmentId) {
+        return employeeService.getEmployeesByDepartmentId(departmentId);
     }
 
     @GetMapping("/organization/{organizationId}")
-    public ResponseEntity<List<EmployeeResponse>> findByOrganization(@PathVariable Long organizationId) {
-        return new ResponseEntity(employeeService.findByOrganization(organizationId), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public List<EmployeeResponse> findByOrganization(@PathVariable Long organizationId) {
+        return employeeService.getEmployeesByOrganizationId(organizationId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createEmployee(@RequestBody EmployeeRequest employeeRequest) {
+    public void add(@RequestBody EmployeeRequest employeeRequest) {
         employeeService.addEmployee(employeeRequest);
     }
 }
