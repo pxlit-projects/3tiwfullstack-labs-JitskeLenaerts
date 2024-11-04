@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/notification/")
+@RequestMapping("/notification")
 public class NotificationController {
 
     private final NotificationService notificationService;
